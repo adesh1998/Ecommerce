@@ -11,7 +11,7 @@ export const Loginpage = () => {
   const handleLogin = async () => {
     request(
       "POST",
-      "/login",
+      "auth/login",
       {
           email: email,
           password: password

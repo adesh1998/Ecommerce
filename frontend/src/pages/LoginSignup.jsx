@@ -2,7 +2,6 @@
 import React, { useState } from 'react';
 import './CSS/LoginSignup.css';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Assuming you're using axios for HTTP requests
 import { request, setAuthHeader } from '../helpers/axios_helper';
 export const LoginSignup = () => {
   const [firstName, setFirstName] = useState('');
@@ -16,7 +15,7 @@ export const LoginSignup = () => {
     
       request(
         "POST",
-        "/register",
+        "auth/register",
         {
             firstName: firstName,
             lastName: lastName,
@@ -47,9 +46,10 @@ export const LoginSignup = () => {
           <input type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
         </div>
         <button onClick={handleSignup}>Signup</button>
-        <p className='loginsignup-login'>
+        <div className="login"><p className='loginsignup-login'>
           Already have an account? <span><Link to='/login'>Login Here</Link></span>
-        </p>
+        </p></div>
+         
         <div className='loginsignup-agree'>
           <input type='checkbox' name='' id='' />
           <p>By Continuing, I agree to terms of use & privacy policy</p>

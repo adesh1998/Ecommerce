@@ -5,8 +5,7 @@ import cart_icon from '../Assets/cart_icon.png'
 import { Link, useNavigate } from 'react-router-dom'
 import { ShopContext } from '../../context/ShopContext'
 import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import profile from '../Assets/profile.png'
+
 export const Navbar = () => {
     const [menu,setMenu]=useState("shop")
     const {getTotalCarItems}=useContext(ShopContext)
@@ -14,7 +13,7 @@ export const Navbar = () => {
     const isLoggedIn = localStorage.getItem('loggedIn') === 'true';
     const firstName = localStorage.getItem('firstName');
     const navigate = useNavigate();
-    const [showDropdown, setShowDropdown] = useState(false);
+
 
     const handleLogout = () => {
       // Implement your logout functionality here
