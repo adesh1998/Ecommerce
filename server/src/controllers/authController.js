@@ -1,14 +1,18 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
-import stripe from '../config/stripe.js'; // Stripe configuration
+
 
 // REGISTER USER
 export const register = async (req, res) => {
     try {
-        const { firstName, lastName, email, password } = req.body;
-
+        const {  firstName, lastName, email, password } = req.body;
+console.log(req.body)
         // Check if the email already exists
+        if (!firstName || !lastName || !email || !password) {
+            return res.status(400).json({ msg: 'All fields are required.' });
+        }
+        
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             return res.status(400).json({ msg: 'Email already exists.' });
@@ -26,6 +30,7 @@ export const register = async (req, res) => {
             lastName,
             email,
             password: hashedPassword,
+            stripeCustomerId:'',
           
         });
         const savedUser = await newUser.save();

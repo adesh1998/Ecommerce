@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    stripeCustomerId: { type: String, required: true }, // Stripe customer ID
+    stripeCustomerId: { type: String }, // Stripe customer ID
 });
 
 export default mongoose.model('User', userSchema);

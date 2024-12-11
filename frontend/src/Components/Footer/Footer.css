@@ -11,11 +11,17 @@
 }
 
 .footer-logo {
+   
+    
     display: flex;
     align-items: center;
     gap: 20px;
 }
 
+#logo{
+    width: 70px;
+    height: 70px;
+}
 .footer-logo p {
     color: #383838;
     font-size: 46px;

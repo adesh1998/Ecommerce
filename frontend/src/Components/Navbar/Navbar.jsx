@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import './Navbar.css';
-import logo from '../Assets/logo.png';
+import logo from '../Assets/logo copy.png';
 import cart_icon from '../Assets/cart_icon.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux'; // Import Redux hooks
@@ -27,8 +27,8 @@ export const Navbar = () => {
     return (
         <div className='navbar'>
             <div className='nav-logo'>
-                <img src={logo} alt="" />
-                <p>SHOPPER</p>
+                <img id="logoM" src={logo} alt="" />
+                <p>StyleNest</p>
             </div>
             <ul className='nav-menu'>
                 <li onClick={() => { setMenu("shop") }}>

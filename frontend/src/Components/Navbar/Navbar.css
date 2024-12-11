@@ -9,6 +9,10 @@
     align-items: center;
     gap: 10px;
 }
+#logoM{
+  width: 70px;
+  height: 70px;
+}
 .nav-logo p{
     color: #171717;
     font-size:38px ;
