@@ -1,27 +1,16 @@
 import axios from 'axios';
 
+const API = axios.create({
+    baseURL: 'http://localhost:3001/api', // Update with your backend URL
+});
 
-export const getAuthToken = () => {
-    return window.localStorage.getItem('auth_token');
-};
-
-export const setAuthHeader = (token) => {
-    window.localStorage.setItem('auth_token', token);
-};
-
-axios.defaults.baseURL = 'http://localhost:3001';
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-export const request = (method, url, data) => {
-
-    let headers = {};
-    if (getAuthToken() !== null && getAuthToken() !== "null") {
-        headers = {'Authorization': `Bearer ${getAuthToken()}`};
+// Attach Authorization Header if Token Exists
+API.interceptors.request.use(config => {
+    const token = localStorage.getItem('token');
+    if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
     }
+    return config;
+});
 
-    return axios({
-        method: method,
-        url: url,
-        headers: headers,
-        data: data});
-};
+export default API;

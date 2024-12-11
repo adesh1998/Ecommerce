@@ -9,6 +9,7 @@ import morgan from "morgan";
 import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
+import Stripe from 'stripe';
 
 
 
@@ -22,10 +23,13 @@ app.use(bodyParser.json({limit:"30mb",extended:true}));
 app.use(bodyParser.urlencoded({limit:"30mb",extended:true}));
 app.use(cors());
 
-app.use("/auth",authRoutes);
+
+app.use("/",authRoutes);
 
 
-const PORT=process.env.PORT || 6001;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+console.log(stripe)
+const PORT=process.env.PORT;
 mongoose.connect(process.env.MONGO_URL,{
     useNewUrlParser:true,
     useUnifiedTopology:true,

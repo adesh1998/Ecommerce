@@ -2,57 +2,86 @@
 import React, { useState } from 'react';
 import './CSS/LoginSignup.css';
 import { Link, useNavigate } from 'react-router-dom';
-import { request, setAuthHeader } from '../helpers/axios_helper';
+import API from '../utils/api';
+
 export const LoginSignup = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: ''
+  });
+
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    
-      request(
-        "POST",
-        "auth/register",
-        {
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            password: password
-        }).then(
-        (response) => {
-            setAuthHeader(response.data.token);
-            navigate('/login')
-            
-        }).catch(
-        (error) => {
-            setAuthHeader(null);
-            alert(error);
-        }
-    );
-      
+  const handleChange = e => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      await API.post('/auth/register', form);
+      alert('Registration successful! Please log in.');
+      navigate('/login'); // Redirect to login page after successful registration
+    } catch (err) {
+      console.error(err.response?.data?.msg || 'Registration failed');
+    }
   };
 
   return (
-    <div className='loginsignup'>
-      <div className='loginsignup-container'>
+    <div className="loginsignup">
+      <div className="loginsignup-container">
         <h1>Sign Up</h1>
-        <div className='loginsignup-fields'>
-          <input type='text' placeholder='Your First Name' onChange={(e) => setFirstName(e.target.value)} />
-          <input type='text' placeholder='Your Last Name' onChange={(e) => setLastName(e.target.value)} />
-          <input type='email' placeholder='Email Address' onChange={(e) => setEmail(e.target.value)} />
-          <input type='password' placeholder='Password' onChange={(e) => setPassword(e.target.value)} />
+        <form className="loginsignup-fields" onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="firstName"
+            placeholder="Your First Name"
+            value={form.firstName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="text"
+            name="lastName"
+            placeholder="Your Last Name"
+            value={form.lastName}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+          <button type="submit">Signup</button>
+        </form>
+        <div className="login">
+          <p className="loginsignup-login">
+            Already have an account?{' '}
+            <span>
+              <Link to="/login">Login Here</Link>
+            </span>
+          </p>
         </div>
-        <button onClick={handleSignup}>Signup</button>
-        <div className="login"><p className='loginsignup-login'>
-          Already have an account? <span><Link to='/login'>Login Here</Link></span>
-        </p></div>
-         
-        <div className='loginsignup-agree'>
-          <input type='checkbox' name='' id='' />
-          <p>By Continuing, I agree to terms of use & privacy policy</p>
+
+        <div className="loginsignup-agree">
+          <input type="checkbox" name="agree" id="agree" required />
+          <label htmlFor="agree">
+            By continuing, I agree to terms of use & privacy policy
+          </label>
         </div>
       </div>
     </div>
