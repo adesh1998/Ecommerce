@@ -7,10 +7,15 @@ This is a full-stack e-commerce website designed for selling fashion clothing. I
 ## Screenshots
 
 ### Home Page
-
+ <img src="Images/Home.png" align="center" height="300"></img>
+ 
 ### Product Page
 
+<img src="Images/Cart.png" align="center" height="300"></img>
+
 ### Checkout Page
+
+<img src="Images/Checkout.png" align="center" height="300"></img>
 
 ## Features
 
@@ -40,39 +45,23 @@ This is a full-stack e-commerce website designed for selling fashion clothing. I
 ---
 
 ## Environment Setup
-
-### Back-End `.env` File Example
-
-Create a `.env` file in your backend directory and add the following variables:
-
-```env
-MONGO_URL="your_mongodb_connection_string"
-PORT=your_server_port
-JWT_SECRET="your_jwt_secret_key"
-STRIPE_SECRET_KEY="your_stripe_secret_key"
-
-
-# E-Commerce Website for Fashion Clothes
-
-This is a full-stack e-commerce website designed for selling fashion clothing. It features a responsive front-end built with React, JavaScript, HTML, and CSS, and a secure back-end using Express.js. The application includes payment integration with Stripe API and uses MongoDB Atlas for data storage.
-
-
-## Front-End `.env` File Example
-
-Create a `.env` file in your frontend directory and add the following variable:
-
-```env
-REACT_APP_STRIPE_PUBLISHABLE_KEY="your_stripe_publishable_key"
 # How to Run
 
 ## Back-End
 
 1. Navigate to the backend directory.
-2. Install dependencies:
+2. Create a `.env` file in the backend directory with the following content:
+   ```env
+   PORT=3001
+   DATABASE_URL=your_database_url
+   JWT_SECRET=your_jwt_secret
+   STRIPE_SECRET_KEY=your_stripe_secret_key
+   ```
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Start the server:
+4. Start the server:
    ```bash
    npm start
    ```
@@ -81,11 +70,16 @@ REACT_APP_STRIPE_PUBLISHABLE_KEY="your_stripe_publishable_key"
 ## Front-End
 
 1. Navigate to the frontend directory.
-2. Install dependencies:
+2. Create a `.env` file in the frontend directory with the following content:
+   ```env
+   REACT_APP_API_BASE_URL=http://localhost:3001
+   REACT_APP_STRIPE_PUBLIC_KEY=your_stripe_public_key
+   ```
+3. Install dependencies:
    ```bash
    npm install
    ```
-3. Start the development server:
+4. Start the development server:
    ```bash
    npm start
    ```
@@ -157,6 +151,7 @@ You can use Postman or any API testing tool to test the back-end API. Below are 
   }
   ```
 
+
 ## Future Improvements
 
 - Add product categories and filters.
@@ -169,4 +164,3 @@ You can use Postman or any API testing tool to test the back-end API. Below are 
 - [Stripe API Documentation](https://stripe.com/docs/api)
 - [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
 - [React Documentation](https://reactjs.org/docs/getting-started.html)
-
