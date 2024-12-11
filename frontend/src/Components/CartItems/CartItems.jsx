@@ -2,15 +2,26 @@ import React, { useContext } from 'react';
 import './CartItems.css';
 import { ShopContext } from '../../context/ShopContext';
 import remove_icon from '../Assets/cart_cross_icon.png';
+import empty_cart_icon from '../Assets/empty_cart_icon.png'; // Add your empty cart icon
 import { useNavigate } from 'react-router-dom';
 
 export const CartItems = () => {
-    const { getTotalCartAmount, all_products, cartItems, removeFromCart } = useContext(ShopContext);
-    const navigate = useNavigate(); // Hook to navigate
+    const { getTotalCarItems,getTotalCartAmount, all_products, cartItems, removeFromCart } = useContext(ShopContext);
+    const navigate = useNavigate();
 
     const handleCheckout = () => {
-        navigate('/checkout'); // Navigate to the checkout page
+        navigate('/checkout');
     };
+
+    const isCartEmpty = getTotalCarItems()===0;
+    if (isCartEmpty) {
+        return (
+            <div className="cartitems-empty">
+                <img src={empty_cart_icon} alt="Empty Cart" className="cartitems-empty-icon" />
+                <h2>Your cart is empty!</h2>
+            </div>
+        );
+    }
 
     return (
         <div className="cartitems">
@@ -67,7 +78,6 @@ export const CartItems = () => {
                             <h3>${getTotalCartAmount()}</h3>
                         </div>
                     </div>
-                    {/* Updated the button with onClick */}
                     <button onClick={handleCheckout}>PROCEED TO CHECKOUT</button>
                 </div>
                 <div className="cartitems-promocode">

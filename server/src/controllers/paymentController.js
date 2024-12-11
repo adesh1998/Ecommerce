@@ -3,62 +3,85 @@ import User from '../models/User.js';
 
 
 
-
 export const createPaymentIntent = async (req, res) => {
-    try {
-        const { customerId,amount, currency, paymentMethodId } = req.body; // Include paymentMethodId from frontend
+  try {
+      const { customerId, amount, currency, paymentMethodId, billingDetails } = req.body; // Include billingDetails from frontend
 
-        // Find the user from the token set in middleware
-       
-        const user = await User.findById(customerId);
-        console.log(user)
+      // Find the user in the database
+      const user = await User.findById(customerId);
+      console.log(billingDetails)
 
-        if (!user.stripeCustomerId) {
-            console.log('Creating new Stripe customer...');
-            const stripeCustomer = await stripe.customers.create({
-                email: user.email,
-                name: `${user.firstName} ${user.lastName}`,
-            });
+      if (!user) {
+          return res.status(404).json({ msg: 'User not found.' });
+      }
 
-            user.stripeCustomerId = stripeCustomer.id;
-            await user.save();
-        }
+      // Create a new Stripe customer if not already present
+      if (!user.stripeCustomerId) {
+          console.log('Creating new Stripe customer...');
+          const stripeCustomer = await stripe.customers.create({
+              email: user.email,
+              name: `${user.firstName} ${user.lastName}`,
+              address: {
+                  line1: billingDetails?.address?.line1 || '', // Include billing address if provided
+                  city: billingDetails?.address?.city || '',
+                  state: billingDetails?.address?.state || '',
+                  postal_code: billingDetails?.address?.postalCode || '',
+              },
+              phone:billingDetails.phone
+          });
 
-        if (!user || !user.stripeCustomerId) {
-            return res.status(404).json({ msg: 'User or Stripe customer not found.' });
-        }
+          user.stripeCustomerId = stripeCustomer.id;
+          await user.save();
+      }
 
-        const paymentIntent = await stripe.paymentIntents.create({
-            amount, // Amount in cents
-            currency, // e.g., "usd"
-            customer: user.stripeCustomerId,
-            payment_method: paymentMethodId, // Attach the payment method
-            confirm: true, // Confirm the payment intent automatically
-            capture_method: 'automatic', // Use automatic capture
-            description: `Payment for ${user.email}`, // Optional: Add a description
-            metadata: { userId: user._id.toString() }, // Optional: Add custom metadata
-        });
-        
-        console.log(paymentIntent.status)
+      // Ensure the Stripe customer exists
+      if (!user.stripeCustomerId) {
+          return res.status(404).json({ msg: 'Stripe customer not found.' });
+      }
 
-        res.status(200).json({
-            status:paymentIntent.status,
-            clientSecret: paymentIntent.client_secret,
-            paymentIntentId: paymentIntent.id,
-        });
-    } catch (error) {
-        console.error('[createPaymentIntent]', error.message);
+      // Update the Stripe customer with new billing details
+      if (billingDetails) {
+          await stripe.customers.update(user.stripeCustomerId, {
+              address: {
+                  line1: billingDetails.address.line1,
+                  city: billingDetails.address.city,
+                  state: billingDetails.address.state,
+                  postal_code: billingDetails.address.postalCode,
+              },
+              phone:billingDetails.phone
+          });
+      }
 
-        // Handle specific Stripe errors
-        if (error.type === 'StripeCardError') {
-            return res.status(400).json({ error: error.message });
-        }
+      // Create a Payment Intent
+      const paymentIntent = await stripe.paymentIntents.create({
+          amount, // Amount in cents
+          currency, // e.g., "usd"
+          customer: user.stripeCustomerId,
+          payment_method: paymentMethodId, // Attach the payment method
+          confirm: true, // Confirm the payment intent automatically
+          capture_method: 'automatic', // Use automatic capture
+          description: `Payment for ${user.email}`, // Optional: Add a description
+          metadata: { userId: user._id.toString() }, // Optional: Add custom metadata
+      });
 
-        res.status(500).json({ error: error.message });
-    }
+      console.log(paymentIntent.status);
+
+      res.status(200).json({
+          status: paymentIntent.status,
+          clientSecret: paymentIntent.client_secret,
+          paymentIntentId: paymentIntent.id,
+      });
+  } catch (error) {
+      console.error('[createPaymentIntent]', error.message);
+
+      // Handle specific Stripe errors
+      if (error.type === 'StripeCardError') {
+          return res.status(400).json({ error: error.message });
+      }
+
+      res.status(500).json({ error: error.message });
+  }
 };
-
-
 
 /**
  * Capture Payment for a Payment Intent

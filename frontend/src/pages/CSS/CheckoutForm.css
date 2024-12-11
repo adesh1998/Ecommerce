@@ -1,0 +1,116 @@
+/* Container for the checkout form */
+.checkout-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 40px;
+    gap: 40px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 1200px;
+    margin: 40px auto;
+  }
+  
+  /* Left section for customer details */
+  .checkout-left {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .checkout-left h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .checkout-form input {
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: #f8f9fa;
+    transition: border-color 0.3s ease;
+  }
+  
+  .checkout-form input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Right section for payment details */
+  .checkout-right {
+    flex: 1;
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .checkout-right h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .card-element {
+    padding: 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    background: #f8f9fa;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+  
+  .card-element--focus {
+    border-color: #007bff;
+  }
+  
+  /* Submit button */
+  .checkout-right button {
+    padding: 14px;
+    font-size: 18px;
+    color: white;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+  }
+  
+  .checkout-right button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  .checkout-right button:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+  
+  /* Media queries for responsiveness */
+  @media (max-width: 768px) {
+    .checkout-container {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
+      padding: 20px;
+    }
+  
+    .checkout-left,
+    .checkout-right {
+      width: 100%;
+    }
+  }
+  
