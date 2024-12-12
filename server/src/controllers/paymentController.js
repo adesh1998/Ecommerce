@@ -19,14 +19,14 @@ export const createPaymentIntent = async (req, res) => {
       if (!user.stripeCustomerId) {
           console.log('Creating new Stripe customer...');
           const stripeCustomer = await stripe.customers.create({
-              email: user.email,
-              name: `${user.firstName} ${user.lastName}`,
-              address: {
-                  line1: billingDetails?.address?.line1 || '', // Include billing address if provided
-                  city: billingDetails?.address?.city || '',
-                  state: billingDetails?.address?.state || '',
-                  postal_code: billingDetails?.address?.postalCode || '',
-              },
+            name: `${user.firstName} ${user.lastName}`,
+            address: {
+                line1: (billingDetails && billingDetails.address && billingDetails.address.line1) || '',
+                city: (billingDetails && billingDetails.address && billingDetails.address.city) || '',
+                state: (billingDetails && billingDetails.address && billingDetails.address.state) || '',
+                postal_code: (billingDetails && billingDetails.address && billingDetails.address.postalCode) || '',
+            },
+            
               phone:billingDetails.phone
           });
 
