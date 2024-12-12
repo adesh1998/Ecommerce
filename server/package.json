@@ -4,8 +4,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js"
+  "start": "node dist/server.js",
+    "dev": "nodemon src/server.js",
+    "build": "babel src --out-dir dist"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,17 @@
     "stripe": "^17.4.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.26.4",
+    "@babel/core": "^7.26.0",
+    "@babel/preset-env": "^7.26.0",
     "nodemon": "^3.1.7"
-  }
+  },
+  "compilerOptions": {
+    "checkJs": true,
+    "strict": true,
+    "baseUrl": "./src"
+  },
+  "include": [
+    "src/**/*"
+  ]
 }
