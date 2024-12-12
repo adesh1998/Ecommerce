@@ -4,6 +4,7 @@
   "main": "/server/server.js",
   "type": "module",
   "scripts": {
+    "debug": "node --version && cat dist/server.js",
     "start": "node dist/server.js",
     "dev": "nodemon src/server.js",
     "build": "npx babel src --out-dir dist"
