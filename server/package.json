@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "main": "/server/server.js",
   "type": "module",
-  "engines": {
-    "node": "22.11.0"
-  },
   "scripts": {
     "debug": "node --version && cat dist/server.js",
     "start": "node dist/server.js",
@@ -28,7 +25,6 @@
   "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.0",
-    "@babel/node": "^7.26.0",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.26.0",
     "babel-cli": "^6.26.0",
