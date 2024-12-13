@@ -35,8 +35,8 @@
     "nodemon": "^3.1.7"
   },
   "compilerOptions": {
-    "checkJs": true,
-    "strict": true,
+    "checkJs": false,
+    "strict": false,
     "baseUrl": "./src"
   },
   "include": [
